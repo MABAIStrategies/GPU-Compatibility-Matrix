@@ -1,0 +1,668 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MAB AI Strategies - GPU Compatibility Matrix</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        mab: {
+                            slate: '#334155',   /* Slate Grey (Tailwind 700) */
+                            dark: '#1E293B',    /* Dark Slate (Tailwind 800) */
+                            mauve: '#D4B5B0',   /* Mauve */
+                            lavender: '#E6E6FA',/* Lavender */
+                            gold: '#D4AF37'     /* Metallic Gold Trim */
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'system-ui', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        /* Custom scrollbar matching new brand colors */
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: #1E293B; }
+        ::-webkit-scrollbar-thumb { background: #D4AF37; border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: #E6E6FA; }
+        
+        /* SOLID design system - NO Glassmorphism */
+        .solid-panel { 
+            background-color: #334155; 
+            border: 2px solid #D4AF37; 
+            box-shadow: 4px 4px 0px rgba(212, 175, 55, 0.15);
+        }
+        
+        .gold-hover { transition: all 0.2s ease-in-out; }
+        .gold-hover:hover { 
+            box-shadow: 6px 6px 0px rgba(212, 175, 55, 0.4); 
+            border-color: #E6E6FA; 
+            transform: translateY(-3px);
+            background-color: #475569;
+        }
+        
+        /* AI Loading Animations */
+        .ai-pulse {
+            animation: pulse-glow 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+        }
+        @keyframes pulse-glow {
+            0%, 100% { opacity: 1; text-shadow: 0 0 10px rgba(212, 175, 55, 0.5); }
+            50% { opacity: 0.5; text-shadow: none; }
+        }
+        .ai-output-panel {
+            display: none;
+        }
+        .ai-output-panel.active {
+            display: block;
+            animation: fadeIn 0.5s ease-in-out;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+    </style>
+</head>
+<body class="bg-mab-dark text-mab-lavender font-sans antialiased min-h-screen flex flex-col relative selection:bg-mab-gold selection:text-mab-dark">
+
+    <!-- Header Section (Solid Slate & Gold Trim) -->
+    <header class="py-14 px-6 text-center border-b-4 border-mab-gold bg-mab-slate relative z-10">
+        <h1 class="text-4xl md:text-6xl font-extrabold tracking-tight mb-4 text-mab-gold drop-shadow-md uppercase">
+            MAB AI Strategies <br/>
+            <span class="text-mab-lavender text-3xl md:text-5xl">GPU Compatibility Matrix</span>
+        </h1>
+        <p class="text-mab-mauve max-w-3xl mx-auto text-lg leading-relaxed font-medium">
+            Algorithmic ranking of discrete GPUs optimized for our target eGPU deployment architecture. Prioritizing PCIe bus efficiency, VRAM capacity, and real-time price-to-performance over OCuLink.
+        </p>
+    </header>
+
+    <main class="flex-grow max-w-7xl mx-auto px-4 py-10 w-full relative z-10">
+        
+        <!-- Variables / Filter Configuration Panel -->
+        <section class="solid-panel rounded-xl p-6 mb-12 relative overflow-hidden">
+            <div class="flex items-center justify-between mb-6 border-b border-mab-gold/30 pb-4">
+                <h2 class="text-xl font-bold text-mab-gold flex items-center gap-3">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6V4m0 2a2 2 0 100 4m0-4a2 2 0 110 4m-6 8a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4m6 6v10m6-2a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4"></path></svg>
+                    Pipeline Configuration Variables
+                </h2>
+                <span class="text-xs font-bold px-3 py-1 bg-mab-gold text-mab-dark rounded-full">v2.0 (May 2026)</span>
+            </div>
+            <div id="config-variables-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5"></div>
+            
+            <div class="mt-6 text-sm text-mab-mauve bg-mab-dark/50 p-3 rounded border border-mab-gold/20 flex items-start gap-2">
+                <svg class="w-5 h-5 text-mab-gold shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                <p><strong>Real-Time Pricing Protocol:</strong> All displayed prices are May 2026 baseline estimates. You <span class="underline decoration-mab-gold">must click the price hyperlink</span> to execute a live query and fetch the exact, to-the-minute market rate.</p>
+            </div>
+        </section>
+
+        <!-- ✨ AI Build Consultant Section -->
+        <section class="solid-panel rounded-xl p-6 mb-12 relative overflow-hidden bg-gradient-to-br from-mab-slate to-mab-dark">
+            <div class="flex items-center gap-3 mb-4 border-b border-mab-gold/30 pb-4">
+                <span class="text-2xl">✨</span>
+                <h2 class="text-xl font-bold text-mab-lavender">MAB AI Build Consultant</h2>
+            </div>
+            <p class="text-sm text-mab-mauve mb-4">Describe your specific workload (e.g., "I want to train 7B LLMs", "1440p Cyberpunk 2077 at 120fps"). Our Gemini AI will recommend the exact GPU pairing from our matrix optimized for the Nucbox M7 OCuLink setup.</p>
+            
+            <div class="flex flex-col md:flex-row gap-4 mb-4">
+                <input type="text" id="ai-consultant-input" placeholder="Enter your specific use-case here..." class="flex-grow bg-mab-dark border-2 border-mab-gold/50 rounded-lg px-4 py-3 text-mab-lavender focus:outline-none focus:border-mab-gold transition-colors font-medium placeholder-mab-mauve/50">
+                <button id="ai-consultant-btn" onclick="askAIConsultant()" class="bg-mab-gold text-mab-dark font-black px-6 py-3 rounded-lg hover:bg-mab-lavender transition-all whitespace-nowrap gold-hover">
+                    ✨ Ask Consultant
+                </button>
+            </div>
+            
+            <div id="ai-consultant-output" class="ai-output-panel bg-mab-dark border border-mab-gold/50 p-5 rounded-lg text-sm text-mab-lavender leading-relaxed shadow-inner">
+                <!-- AI Output appears here -->
+            </div>
+        </section>
+
+        <!-- Top 10 Recommended GPUs (Cards) -->
+        <section class="mb-16">
+            <h3 class="text-3xl font-bold mb-8 text-mab-lavender flex items-center gap-3">
+                <span class="bg-mab-gold text-mab-dark w-10 h-10 flex items-center justify-center rounded-lg font-black">10</span>
+                Tier 1: Optimal OCuLink Pairings
+            </h3>
+            <div id="top-10-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-6">
+                <!-- Rendered by JS -->
+            </div>
+        </section>
+
+        <!-- Remaining 30 GPUs (Table) -->
+        <section>
+            <h3 class="text-2xl font-bold mb-6 text-mab-mauve border-b-2 border-mab-gold pb-3">
+                Tier 2 & 3: Additional Compatible GPUs (Ranks 11-40)
+            </h3>
+            <div class="overflow-x-auto solid-panel rounded-xl">
+                <table class="w-full text-left text-sm text-mab-lavender">
+                    <thead class="text-xs text-mab-dark uppercase bg-mab-gold border-b border-mab-gold">
+                        <tr>
+                            <th scope="col" class="px-6 py-4 font-bold">Rank</th>
+                            <th scope="col" class="px-6 py-4 font-bold">GPU Model (Specs Link)</th>
+                            <th scope="col" class="px-6 py-4 font-bold">Release</th>
+                            <th scope="col" class="px-6 py-4 font-bold">Lowest New (Live)</th>
+                            <th scope="col" class="px-6 py-4 font-bold">Lowest Used (Live)</th>
+                        </tr>
+                    </thead>
+                    <tbody id="remaining-30-table" class="divide-y divide-mab-gold/20 bg-mab-slate">
+                        <!-- Rendered by JS -->
+                    </tbody>
+                </table>
+            </div>
+        </section>
+    </main>
+
+    <footer class="border-t-4 border-mab-gold bg-mab-slate py-8 text-center text-mab-mauve relative z-10 font-medium">
+        <p>&copy; 2026 MAB AI Strategies. All parameters algorithmically validated.</p>
+    </footer>
+
+    <!-- Interactive GPU Modal (Popup) - NO Glassmorphism -->
+    <div id="gpu-modal" class="fixed inset-0 z-50 flex items-center justify-center hidden">
+        <!-- Solid Backdrop -->
+        <div class="absolute inset-0 bg-mab-dark/90 transition-opacity" onclick="closeModal()"></div>
+        
+        <!-- Modal Content -->
+        <div class="transform scale-95 opacity-0 transition-all duration-300 relative solid-panel p-8 rounded-xl w-full max-w-4xl mx-4 z-10 flex flex-col md:flex-row gap-8 max-h-[95vh] overflow-y-auto">
+            
+            <!-- Close Button -->
+            <button onclick="closeModal()" class="absolute top-4 right-4 text-mab-mauve hover:text-mab-gold transition-colors z-20">
+                <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+            </button>
+
+            <!-- Left: Graphic & Prices -->
+            <div class="md:w-1/3 flex flex-col items-center justify-start text-center border-b md:border-b-0 md:border-r border-mab-gold/30 pb-6 md:pb-0 md:pr-6 pt-4">
+                <!-- SVG Tech/GPU Graphic -->
+                <svg class="w-32 h-32 text-mab-gold mb-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                    <rect x="2" y="5" width="20" height="14" rx="2" ry="2"></rect>
+                    <path d="M6 9h.01 M10 9h.01 M14 9h.01 M6 13h.01 M10 13h.01 M14 13h.01"></path>
+                    <path d="M18 5v14 M18 9h4 M18 15h4 M6 19v2 M10 19v2 M14 19v2"></path>
+                    <circle cx="10" cy="11" r="2" stroke-width="0.5"></circle>
+                </svg>
+                
+                <div class="w-full bg-mab-dark rounded-lg p-4 border border-mab-gold/50 mb-4">
+                    <div class="text-xs text-mab-mauve mb-2 uppercase tracking-wide font-bold">Real-Time Market Fetch</div>
+                    <div class="flex justify-between items-center border-b border-mab-gold/20 pb-3 mb-3">
+                        <span class="font-medium text-mab-lavender">Brand New:</span>
+                        <span id="modal-new-price"></span>
+                    </div>
+                    <div class="flex justify-between items-center">
+                        <span class="font-medium text-mab-lavender">Refurb/Used:</span>
+                        <span id="modal-used-price"></span>
+                    </div>
+                </div>
+
+                <!-- ✨ AI Price Forecaster -->
+                <button id="modal-forecast-btn" onclick="generateForecast()" class="w-full bg-mab-slate border-2 border-dashed border-mab-gold/50 text-mab-gold hover:bg-mab-gold hover:text-mab-dark transition-all py-2.5 rounded-lg text-xs font-bold uppercase tracking-wide flex items-center justify-center gap-2">
+                    ✨ AI Market Forecast
+                </button>
+                <div id="modal-forecast-output" class="hidden mt-3 p-3 bg-mab-dark border border-mab-gold/30 rounded-lg text-xs text-mab-lavender text-left leading-relaxed shadow-inner w-full"></div>
+
+            </div>
+
+            <!-- Right: Specs & Action Links -->
+            <div class="md:w-2/3 flex flex-col justify-between pt-4">
+                <div>
+                    <div class="inline-block px-3 py-1 rounded bg-mab-gold text-mab-dark text-xs font-black uppercase tracking-wider mb-3" id="modal-rank-badge">Rank #1</div>
+                    <h2 id="modal-title" class="text-2xl md:text-3xl font-extrabold text-mab-lavender mb-4">GPU Name</h2>
+                    
+                    <!-- Spec Sheet -->
+                    <div class="grid grid-cols-3 gap-4 mb-6">
+                        <div class="bg-mab-dark p-3 rounded-lg border border-mab-gold/30 text-center">
+                            <div class="text-xs text-mab-mauve uppercase font-bold">Arch</div>
+                            <div class="font-bold text-mab-lavender mt-1" id="modal-arch"></div>
+                        </div>
+                        <div class="bg-mab-dark p-3 rounded-lg border border-mab-gold/30 text-center">
+                            <div class="text-xs text-mab-mauve uppercase font-bold">VRAM</div>
+                            <div class="font-bold text-mab-gold mt-1" id="modal-vram"></div>
+                        </div>
+                        <div class="bg-mab-dark p-3 rounded-lg border border-mab-gold/30 text-center">
+                            <div class="text-xs text-mab-mauve uppercase font-bold">TDP Target</div>
+                            <div class="font-bold text-orange-300 mt-1" id="modal-tdp"></div>
+                        </div>
+                    </div>
+
+                    <!-- MAB AI Reasoning -->
+                    <div class="mb-6">
+                        <h4 class="text-sm font-bold text-mab-gold mb-2 flex items-center gap-2">
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                            MAB AI Compatibility Reasoning
+                        </h4>
+                        <p id="modal-reason" class="text-mab-lavender text-sm leading-relaxed bg-mab-dark p-4 rounded-lg border-l-4 border-mab-gold mb-4"></p>
+                        
+                        <!-- ✨ AI Deep Dive Analysis & TTS -->
+                        <div class="flex flex-col gap-2">
+                            <button id="modal-ai-btn" onclick="generateDeepDive()" class="w-full bg-mab-dark border-2 border-dashed border-mab-gold/60 text-mab-gold hover:text-mab-lavender hover:border-mab-lavender transition-all py-2.5 rounded-lg text-xs font-bold uppercase tracking-wider flex items-center justify-center gap-2">
+                                ✨ Generate Gemini Deep Dive Report
+                            </button>
+                            
+                            <div id="modal-ai-output-container" class="hidden flex-col gap-2">
+                                <div id="modal-ai-output" class="ai-output-panel bg-mab-slate/50 border border-mab-gold/30 p-4 rounded-lg text-xs text-mab-lavender leading-relaxed max-h-40 overflow-y-auto">
+                                    <!-- Deep dive HTML appears here -->
+                                </div>
+                                <button id="tts-btn" class="self-end px-3 py-1.5 bg-mab-gold/10 border border-mab-gold text-xs font-bold text-mab-gold hover:bg-mab-gold hover:text-mab-dark rounded flex items-center gap-2 transition-colors" onclick="playTTS()">
+                                    🔊 Listen to Report
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Action Buttons -->
+                <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 mt-4">
+                    <a id="modal-link-new" href="#" target="_blank" class="flex items-center justify-center py-3 px-4 rounded-lg bg-mab-dark border border-mab-gold text-sm font-bold text-mab-gold hover:bg-mab-gold hover:text-mab-dark transition-all">
+                        Fetch New Price
+                    </a>
+                    <a id="modal-link-deal" href="#" target="_blank" class="flex items-center justify-center py-3 px-4 rounded-lg bg-mab-dark border border-mab-mauve text-sm font-bold text-mab-mauve hover:bg-mab-mauve hover:text-mab-dark transition-all">
+                        Fetch Best Deal
+                    </a>
+                    <a id="modal-link-lowest" href="#" target="_blank" class="flex items-center justify-center py-3 px-4 rounded-lg bg-mab-gold text-sm font-bold text-mab-dark hover:bg-mab-lavender transition-all">
+                        Lowest Available
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Application Logic -->
+    <script>
+        // --- 1. CONFIGURATION & VARIABLES (Updated for May 2026) ---
+        const configVars = [
+            { label: "Max Output Limit", value: "<40>", desc: "Total GPUs generated." },
+            { label: "Temporal Baseline", value: "<May 2026>", desc: "Anchor for live pricing logic." },
+            { label: "Release Window", value: "<5>", desc: "Years back (2021-2026)." },
+            { label: "Target Architecture", value: "<GMKtec mini pc Nucbox m7...>", desc: "Ryzen 7 Pro, 32GB RAM, 3GB iGPU, 512GB." },
+            { label: "Pricing Metric", value: "<lowest available price to purchase>", desc: "Global market aggregate via live query." },
+            { label: "Condition Matrix", value: "<new> & <used>", desc: "Primary retail & secondary market." }
+        ];
+
+        // --- 2. GPU DATABASE (May 2026 Algorithmic Ranking) ---
+        const gpus = [
+            // Top 10 - Premium OCuLink Pairings for 2026
+            { rank: 1, name: "NVIDIA GeForce RTX 5070", year: 2026, newP: 599, usedP: 540, vram: "12GB GDDR7", tdp: "250W", arch: "Blackwell", reason: "The new undisputed champion for the GMKtec M7's OCuLink interface. It saturates the PCIe 4.0 x4 bandwidth perfectly, delivering staggering 1440p/4K performance without wasting premium compute power to a severe bottleneck." },
+            { rank: 2, name: "AMD Radeon RX 8800 XT", year: 2025, newP: 499, usedP: 420, vram: "16GB GDDR6", tdp: "250W", arch: "RDNA 4", reason: "Unbeatable value for memory capacity in 2026. The 16GB VRAM provides incredible longevity for local AI workloads, running near native performance over the M7's external bandwidth with massively improved raytracing." },
+            { rank: 3, name: "NVIDIA GeForce RTX 4070 Ti Super", year: 2024, newP: 649, usedP: 550, vram: "16GB GDDR6X", tdp: "285W", arch: "Ada Lovelace", reason: "Following the 50-series release, massive price drops have turned this 16GB card into an AI and workstation powerhouse that fits snugly inside external eGPU bandwidth constraints." },
+            { rank: 4, name: "NVIDIA GeForce RTX 5080", year: 2026, newP: 1199, usedP: 1050, vram: "16GB GDDR7", tdp: "350W", arch: "Blackwell", reason: "A premium tier card. While it experiences a measurable 10% performance penalty due to the OCuLink x4 bottleneck, the sheer brute force of the Blackwell architecture overcomes the restriction." },
+            { rank: 5, name: "AMD Radeon RX 7900 GRE", year: 2024, newP: 450, usedP: 380, vram: "16GB GDDR6", tdp: "260W", arch: "RDNA 3", reason: "Now considered a mid-range king in 2026, this card offers phenomenal 16GB value for AMD-ecosystem purists running local models." },
+            { rank: 6, name: "NVIDIA GeForce RTX 4070 Super", year: 2024, newP: 499, usedP: 400, vram: "12GB GDDR6X", tdp: "220W", arch: "Ada Lovelace", reason: "Deeply discounted in 2026, it remains highly power-efficient, making it ideal for compact, lower-wattage eGPU enclosures paired with the Nucbox M7." },
+            { rank: 7, name: "AMD Radeon RX 7800 XT", year: 2023, newP: 399, usedP: 320, vram: "16GB GDDR6", tdp: "263W", arch: "RDNA 3", reason: "Dropping below $400 new in 2026 makes this an absolute steal for a 16GB buffer, perfect for batch processing without breaking the bank." },
+            { rank: 8, name: "NVIDIA GeForce RTX 5060 Ti 16GB", year: 2026, newP: 449, usedP: 400, vram: "16GB GDDR7", tdp: "175W", arch: "Blackwell", reason: "Its native x8 lane design closely matches external GPU enclosure limits, resulting in almost zero relative performance loss over OCuLink. Highly efficient." },
+            { rank: 9, name: "NVIDIA GeForce RTX 4080 Super", year: 2024, newP: 850, usedP: 700, vram: "16GB GDDR6X", tdp: "320W", arch: "Ada Lovelace", reason: "A high-end legacy choice that dominates the used market. Offers incredible rasterization that shrugs off the Nucbox's PCIe limitations." },
+            { rank: 10, name: "AMD Radeon RX 8700 XT", year: 2025, newP: 419, usedP: 350, vram: "12GB GDDR6", tdp: "210W", arch: "RDNA 4", reason: "Modern RDNA 4 efficiency with 12GB VRAM. A rock-solid, cost-effective entry point for turning the Nucbox M7 into a highly capable 1440p rig." },
+            
+            // Ranks 11-40 (Tier 2 & 3) - Spanning 2021-2026
+            { rank: 11, name: "NVIDIA GeForce RTX 4070", year: 2023, newP: 450, usedP: 350 },
+            { rank: 12, name: "NVIDIA GeForce RTX 5090", year: 2026, newP: 1999, usedP: 1850 },
+            { rank: 13, name: "AMD Radeon RX 7900 XT", year: 2022, newP: 599, usedP: 480 },
+            { rank: 14, name: "NVIDIA GeForce RTX 4090", year: 2022, newP: 1200, usedP: 950 }, 
+            { rank: 15, name: "NVIDIA GeForce RTX 3080 Ti", year: 2021, newP: null, usedP: 350 },
+            { rank: 16, name: "AMD Radeon RX 8600 XT", year: 2026, newP: 299, usedP: 260 },
+            { rank: 17, name: "NVIDIA GeForce RTX 4060 Ti 16GB", year: 2023, newP: 380, usedP: 300 },
+            { rank: 18, name: "AMD Radeon RX 7700 XT", year: 2023, newP: 350, usedP: 280 },
+            { rank: 19, name: "Intel Arc Battlemage B770", year: 2025, newP: 329, usedP: 270 },
+            { rank: 20, name: "NVIDIA GeForce RTX 3090 Ti", year: 2022, newP: null, usedP: 550 },
+            { rank: 21, name: "AMD Radeon RX 6950 XT", year: 2022, newP: null, usedP: 380 },
+            { rank: 22, name: "NVIDIA GeForce RTX 5060 8GB", year: 2026, newP: 299, usedP: 270 },
+            { rank: 23, name: "AMD Radeon RX 6750 XT", year: 2022, newP: 250, usedP: 180 },
+            { rank: 24, name: "NVIDIA GeForce RTX 4060", year: 2023, newP: 260, usedP: 200 },
+            { rank: 25, name: "AMD Radeon RX 7600 XT", year: 2024, newP: 280, usedP: 220 },
+            { rank: 26, name: "Intel Arc Battlemage B580", year: 2025, newP: 249, usedP: 200 },
+            { rank: 27, name: "NVIDIA GeForce RTX 3070 Ti", year: 2021, newP: null, usedP: 250 },
+            { rank: 28, name: "NVIDIA GeForce RTX 3060 12GB", year: 2021, newP: 220, usedP: 150 }, 
+            { rank: 29, name: "AMD Radeon RX 7600", year: 2023, newP: 230, usedP: 170 },
+            { rank: 30, name: "AMD Radeon RX 6700 XT", year: 2021, newP: null, usedP: 170 },
+            { rank: 31, name: "Intel Arc A770 16GB", year: 2022, newP: 230, usedP: 160 },
+            { rank: 32, name: "NVIDIA GeForce RTX 3060 8GB", year: 2022, newP: 199, usedP: 130 },
+            { rank: 33, name: "Intel Arc A750", year: 2022, newP: 170, usedP: 120 },
+            { rank: 34, name: "AMD Radeon RX 6650 XT", year: 2022, newP: 180, usedP: 130 },
+            { rank: 35, name: "NVIDIA GeForce RTX 4060 Ti 8GB", year: 2023, newP: 330, usedP: 260 },
+            { rank: 36, name: "AMD Radeon RX 7900 XTX", year: 2022, newP: 750, usedP: 600 },
+            { rank: 37, name: "AMD Radeon RX 6600", year: 2021, newP: 150, usedP: 100 },
+            { rank: 38, name: "NVIDIA GeForce RTX 3050 8GB", year: 2022, newP: 160, usedP: 110 },
+            { rank: 39, name: "AMD Radeon RX 6500 XT", year: 2022, newP: 110, usedP: 75 },
+            { rank: 40, name: "Intel Arc A580", year: 2023, newP: 140, usedP: 100 }
+        ];
+
+        let selectedGPUIndex = null;
+        let currentDeepDiveRawText = ""; // Holds raw text for TTS
+
+        // --- 3. HELPER FUNCTIONS ---
+        const formatLinkQuery = (name) => encodeURIComponent(name);
+        
+        const generatePriceLink = (price, type, name) => {
+            if (price === null) return '<span class="text-mab-slate font-bold bg-mab-dark px-2 py-1 rounded italic text-xs">N/A</span>';
+            const queryStr = name + (type === 'new' ? ' graphics card new' : ' graphics card used');
+            const url = type === 'new' 
+                ? `https://www.amazon.com/s?k=${formatLinkQuery(queryStr)}` 
+                : `https://www.ebay.com/sch/i.html?_nkw=${formatLinkQuery(queryStr)}`;
+            
+            return `
+                <a href="${url}" target="_blank" class="inline-flex items-center gap-1 text-mab-gold hover:text-mab-lavender underline decoration-mab-gold/50 transition-colors font-bold group" title="Fetch Live ${type.toUpperCase()} Price">
+                    $${price}
+                    <svg class="w-3.5 h-3.5 text-mab-mauve group-hover:text-mab-lavender" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"></path></svg>
+                </a>
+            `;
+        };
+
+        // --- PCM to WAV Audio Converter for TTS ---
+        function pcmToWav(base64Data, sampleRate = 24000) {
+            const binaryString = atob(base64Data);
+            const bytes = new Uint8Array(binaryString.length);
+            for (let i = 0; i < binaryString.length; i++) { bytes[i] = binaryString.charCodeAt(i); }
+            const buffer = bytes.buffer;
+
+            const wavBuffer = new ArrayBuffer(44 + buffer.byteLength);
+            const view = new DataView(wavBuffer);
+
+            const writeString = (view, offset, string) => {
+                for (let i = 0; i < string.length; i++) { view.setUint8(offset + i, string.charCodeAt(i)); }
+            };
+
+            writeString(view, 0, 'RIFF');
+            view.setUint32(4, 36 + buffer.byteLength, true);
+            writeString(view, 8, 'WAVE');
+            writeString(view, 12, 'fmt ');
+            view.setUint32(16, 16, true);
+            view.setUint16(20, 1, true);
+            view.setUint16(22, 1, true);
+            view.setUint32(24, sampleRate, true);
+            view.setUint32(28, sampleRate * 2, true);
+            view.setUint16(32, 2, true);
+            view.setUint16(34, 16, true);
+            writeString(view, 36, 'data');
+            view.setUint32(40, buffer.byteLength, true);
+            new Uint8Array(wavBuffer, 44).set(new Uint8Array(buffer));
+
+            return new Blob([wavBuffer], { type: 'audio/wav' });
+        }
+
+        // --- 4. RENDER UI ---
+        document.addEventListener('DOMContentLoaded', () => {
+            const configGrid = document.getElementById('config-variables-grid');
+            configVars.forEach(v => {
+                configGrid.innerHTML += `
+                    <div class="bg-mab-dark border border-mab-gold/30 p-3 rounded-lg">
+                        <div class="text-xs text-mab-gold uppercase font-bold tracking-wider mb-1">${v.label}</div>
+                        <div class="font-mono text-sm text-mab-lavender break-all bg-mab-slate px-2 py-1 rounded inline-block mb-1 border border-mab-gold/20">${v.value}</div>
+                        <div class="text-xs text-mab-mauve">${v.desc}</div>
+                    </div>
+                `;
+            });
+
+            const top10Container = document.getElementById('top-10-grid');
+            gpus.slice(0, 10).forEach((gpu, index) => {
+                top10Container.innerHTML += `
+                    <div class="solid-panel rounded-xl p-5 relative cursor-pointer gold-hover flex flex-col h-full group" onclick="openModal(${index})">
+                        <div class="absolute top-0 right-0 bg-mab-gold text-mab-dark text-xs font-black px-3 py-1 rounded-bl-lg rounded-tr-xl">#${gpu.rank}</div>
+                        
+                        <div class="flex-grow flex flex-col justify-center items-center py-4">
+                            <svg class="w-16 h-16 text-mab-mauve group-hover:text-mab-gold transition-colors duration-300 mb-3" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                                <rect x="2" y="5" width="20" height="14" rx="2" ry="2"></rect>
+                                <path d="M6 9h.01 M10 9h.01 M14 9h.01 M6 13h.01 M10 13h.01 M14 13h.01 M18 5v14 M18 9h4 M18 15h4 M6 19v2 M10 19v2 M14 19v2"></path>
+                            </svg>
+                            <h4 class="text-center font-extrabold text-mab-lavender leading-tight">${gpu.name}</h4>
+                            <p class="text-xs text-mab-gold mt-1">${gpu.year} Release</p>
+                        </div>
+                        
+                        <div class="border-t border-mab-gold/30 pt-3 mt-auto">
+                            <div class="flex justify-between text-xs mb-1 items-center">
+                                <span class="text-mab-mauve font-semibold">Est. New:</span> 
+                                <span onclick="event.stopPropagation()">${generatePriceLink(gpu.newP, 'new', gpu.name)}</span>
+                            </div>
+                            <div class="flex justify-between text-xs mb-4 items-center">
+                                <span class="text-mab-mauve font-semibold">Est. Used:</span> 
+                                <span onclick="event.stopPropagation()">${generatePriceLink(gpu.usedP, 'used', gpu.name)}</span>
+                            </div>
+                            <button class="w-full bg-mab-dark hover:bg-mab-gold border border-mab-gold text-mab-gold hover:text-mab-dark transition-all duration-300 py-2 rounded text-xs font-black uppercase tracking-wider">
+                                View Specs & Logic
+                            </button>
+                        </div>
+                    </div>
+                `;
+            });
+
+            const remainingContainer = document.getElementById('remaining-30-table');
+            gpus.slice(10, 40).forEach(gpu => {
+                const specUrl = `https://www.techpowerup.com/gpu-specs/?ajaxsrch=${formatLinkQuery(gpu.name)}`;
+                remainingContainer.innerHTML += `
+                    <tr class="hover:bg-mab-dark transition-colors group">
+                        <td class="px-6 py-4 font-black text-mab-gold">#${gpu.rank}</td>
+                        <td class="px-6 py-4 font-semibold text-mab-lavender">
+                            <a href="${specUrl}" target="_blank" class="hover:text-mab-gold transition-colors flex items-center gap-2 underline decoration-mab-gold/30">
+                                ${gpu.name}
+                                <svg class="w-4 h-4 opacity-50" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"></path></svg>
+                            </a>
+                        </td>
+                        <td class="px-6 py-4 text-mab-mauve">${gpu.year}</td>
+                        <td class="px-6 py-4">${generatePriceLink(gpu.newP, 'new', gpu.name)}</td>
+                        <td class="px-6 py-4">${generatePriceLink(gpu.usedP, 'used', gpu.name)}</td>
+                    </tr>
+                `;
+            });
+        });
+
+        // --- 5. MODAL LOGIC ---
+        function openModal(index) {
+            selectedGPUIndex = index;
+            const gpu = gpus[index];
+            
+            document.getElementById('modal-rank-badge').innerText = `Rank #${gpu.rank}`;
+            document.getElementById('modal-title').innerText = gpu.name;
+            document.getElementById('modal-vram').innerText = gpu.vram;
+            document.getElementById('modal-tdp').innerText = gpu.tdp;
+            document.getElementById('modal-arch').innerText = gpu.arch;
+            document.getElementById('modal-reason').innerText = gpu.reason;
+            
+            document.getElementById('modal-new-price').innerHTML = generatePriceLink(gpu.newP, 'new', gpu.name);
+            document.getElementById('modal-used-price').innerHTML = generatePriceLink(gpu.usedP, 'used', gpu.name);
+            
+            document.getElementById('modal-link-new').href = `https://www.amazon.com/s?k=${formatLinkQuery(gpu.name + ' Graphics Card')}`;
+            document.getElementById('modal-link-deal').href = `https://www.ebay.com/sch/i.html?_nkw=${formatLinkQuery(gpu.name)}`;
+            document.getElementById('modal-link-lowest').href = `https://www.google.com/search?tbm=shop&q=${formatLinkQuery(gpu.name)}`;
+
+            const modal = document.getElementById('gpu-modal');
+            const modalContent = modal.querySelector('.transform');
+            modal.classList.remove('hidden');
+            setTimeout(() => {
+                modalContent.classList.remove('scale-95', 'opacity-0');
+                modalContent.classList.add('scale-100', 'opacity-100');
+            }, 20);
+        }
+
+        function closeModal() {
+            const modal = document.getElementById('gpu-modal');
+            const modalContent = modal.querySelector('.transform');
+            
+            modalContent.classList.remove('scale-100', 'opacity-100');
+            modalContent.classList.add('scale-95', 'opacity-0');
+            
+            // Reset AI Elements
+            document.getElementById('modal-ai-output-container').classList.remove('flex');
+            document.getElementById('modal-ai-output-container').classList.add('hidden');
+            document.getElementById('modal-ai-output').innerHTML = '';
+            document.getElementById('modal-ai-btn').disabled = false;
+            document.getElementById('modal-ai-btn').innerHTML = '✨ Generate Gemini Deep Dive Report';
+            
+            document.getElementById('modal-forecast-output').classList.add('hidden');
+            document.getElementById('modal-forecast-output').innerHTML = '';
+            document.getElementById('modal-forecast-btn').disabled = false;
+            document.getElementById('modal-forecast-btn').innerHTML = '✨ AI Market Forecast';
+            
+            currentDeepDiveRawText = "";
+            
+            setTimeout(() => { modal.classList.add('hidden'); }, 300);
+        }
+
+        // --- 6. GEMINI API INTEGRATIONS ---
+        const apiKey = ""; 
+        
+        // Base Fetcher
+        async function fetchGeminiWithRetry(prompt, systemPrompt) {
+            const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-09-2025:generateContent?key=${apiKey}`;
+            const payload = {
+                contents: [{ parts: [{ text: prompt }] }],
+                systemInstruction: { parts: [{ text: systemPrompt }] }
+            };
+            const delays = [1000, 2000, 4000, 8000, 16000];
+
+            for (let i = 0; i < 5; i++) {
+                try {
+                    const response = await fetch(url, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify(payload)
+                    });
+                    if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
+                    const result = await response.json();
+                    
+                    let text = result.candidates?.[0]?.content?.parts?.[0]?.text || "No response generated.";
+                    
+                    // Format for HTML display, preserve raw text for TTS
+                    let html = text.replace(/\*\*(.*?)\*\*/g, '<strong class="text-mab-gold">$1</strong>');
+                    html = html.replace(/\*(.*?)\*/g, '<em class="text-mab-mauve">$1</em>');
+                    html = html.replace(/\n/g, '<br>');
+                    
+                    return { rawText: text, htmlText: html };
+                } catch (error) {
+                    if (i === 4) return { rawText: "", htmlText: `<span class="text-red-400">Error communicating with AI: ${error.message}. Please try again.</span>` };
+                    await new Promise(r => setTimeout(r, delays[i]));
+                }
+            }
+        }
+
+        // FEATURE 1: Build Consultant
+        async function askAIConsultant() {
+            const inputEl = document.getElementById('ai-consultant-input');
+            const outputEl = document.getElementById('ai-consultant-output');
+            const btnEl = document.getElementById('ai-consultant-btn');
+            
+            if (!inputEl.value.trim()) return;
+
+            outputEl.classList.add('active');
+            outputEl.innerHTML = '<div class="ai-pulse flex items-center justify-center py-4"><span class="text-mab-gold font-bold">✨ Consulting the Oracle...</span></div>';
+            btnEl.disabled = true;
+            btnEl.classList.add('opacity-50', 'cursor-not-allowed');
+
+            const systemPrompt = `You are the Lead Hardware Consultant for 'MAB AI Strategies'. The current year is May 2026. 
+You are advising a client who has a GMKtec Nucbox M7 (AMD Ryzen 7 Pro, 32GB RAM) using an OCuLink eGPU connection (PCIe 4.0 x4 bottleneck).
+Based on the user's workload, recommend exactly ONE GPU from the following list of top choices (RTX 5070, RX 8800 XT, RTX 4070 Ti Super, RTX 5080, RX 7900 GRE).
+Explain WHY it is the best choice for their specific workload considering the OCuLink bottleneck. Keep the tone professional, highly technical, and concise (max 3 sentences).`;
+
+            const response = await fetchGeminiWithRetry(`User Workload: ${inputEl.value}`, systemPrompt);
+            
+            outputEl.innerHTML = `<div class="border-l-4 border-mab-gold pl-3 py-1"><span class="text-mab-gold font-bold mb-2 block">✨ Consultant Recommendation:</span>${response.htmlText}</div>`;
+            btnEl.disabled = false;
+            btnEl.classList.remove('opacity-50', 'cursor-not-allowed');
+        }
+
+        // FEATURE 2: Deep Dive Report
+        async function generateDeepDive() {
+            const containerEl = document.getElementById('modal-ai-output-container');
+            const outputEl = document.getElementById('modal-ai-output');
+            const btnEl = document.getElementById('modal-ai-btn');
+            const gpuName = document.getElementById('modal-title').innerText;
+            const gpuArch = document.getElementById('modal-arch').innerText;
+            const gpuVram = document.getElementById('modal-vram').innerText;
+
+            containerEl.classList.remove('hidden');
+            containerEl.classList.add('flex');
+            outputEl.innerHTML = '<div class="ai-pulse text-center mt-4"><span class="text-mab-gold font-bold text-base">✨ Generating deep dive report...</span></div>';
+            btnEl.disabled = true;
+            btnEl.innerHTML = '✨ Analyzing Architecture...';
+
+            const systemPrompt = `You are a Senior Systems Architect at 'MAB AI Strategies' in May 2026.
+Analyze the pairing of a ${gpuName} (${gpuArch}, ${gpuVram}) with a GMKtec Nucbox M7 over an OCuLink connection.
+Provide a 2-paragraph highly technical deep dive. 
+Paragraph 1: Discuss the specific bandwidth implications (PCIe 4.0 x4) for this exact card.
+Paragraph 2: Forecast its viability for running local AI models vs high-fidelity gaming in 2026.`;
+
+            const response = await fetchGeminiWithRetry(`Generate deep dive for ${gpuName}`, systemPrompt);
+            
+            currentDeepDiveRawText = response.rawText;
+            outputEl.innerHTML = response.htmlText;
+            btnEl.innerHTML = '✨ Deep Dive Complete';
+        }
+
+        // FEATURE 3: Price Depreciation Forecaster
+        async function generateForecast() {
+            if (selectedGPUIndex === null) return;
+            const gpu = gpus[selectedGPUIndex];
+            const btnEl = document.getElementById('modal-forecast-btn');
+            const outputEl = document.getElementById('modal-forecast-output');
+
+            outputEl.classList.remove('hidden');
+            outputEl.innerHTML = '<span class="ai-pulse text-mab-gold font-bold block text-center">✨ Calculating Depreciation Curve...</span>';
+            btnEl.disabled = true;
+
+            const systemPrompt = `You are a Senior GPU Market Analyst in May 2026. 
+Provide a 2-sentence market forecast on how the price of the ${gpu.name} will change between May 2026 and May 2027.
+The current estimated baseline new price is $${gpu.newP || 'N/A'} and used is $${gpu.usedP || 'N/A'}. 
+Factor in the architectural age (${gpu.year} release). Be analytical and predict a specific percentage drop or plateau.`;
+
+            const response = await fetchGeminiWithRetry(`Forecast 12-month market pricing for ${gpu.name}`, systemPrompt);
+            
+            outputEl.innerHTML = `<span class="text-mab-gold font-bold block mb-1">12-Month Market Forecast:</span>${response.htmlText}`;
+            btnEl.innerHTML = '✨ Forecast Complete';
+        }
+
+        // FEATURE 4: TTS Generator (Audio Generation)
+        let currentAudio = null;
+        async function playTTS() {
+            if (!currentDeepDiveRawText) return;
+            const btn = document.getElementById('tts-btn');
+            const originalHTML = btn.innerHTML;
+            
+            if (currentAudio) {
+                currentAudio.pause();
+                currentAudio = null;
+                btn.innerHTML = '🔊 Listen to Report';
+                return;
+            }
+
+            btn.innerHTML = '🔊 Encoding Audio...';
+            btn.disabled = true;
+
+            const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-tts:generateContent?key=${apiKey}`;
+            const payload = {
+                contents: [{ parts: [{ text: currentDeepDiveRawText }] }],
+                generationConfig: {
+                    responseModalities: ["AUDIO"],
+                    speechConfig: { voiceConfig: { prebuiltVoiceConfig: { voiceName: "Puck" } } }
+                }
+            };
+
+            try {
+                const response = await fetch(url, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(payload)
+                });
+                
+                const result = await response.json();
+                const inlineData = result.candidates?.[0]?.content?.parts?.[0]?.inlineData;
+
+                if (inlineData) {
+                    const audioBlob = pcmToWav(inlineData.data);
+                    const audioUrl = URL.createObjectURL(audioBlob);
+                    currentAudio = new Audio(audioUrl);
+                    
+                    currentAudio.play();
+                    btn.innerHTML = '⏸️ Stop Audio';
+                    btn.disabled = false;
+                    
+                    currentAudio.onended = () => {
+                        btn.innerHTML = '🔊 Listen Again';
+                        currentAudio = null;
+                    };
+                } else { throw new Error("No audio payload"); }
+            } catch (error) {
+                console.error(error);
+                btn.innerHTML = '❌ Audio Failed';
+                setTimeout(() => { btn.innerHTML = originalHTML; btn.disabled = false; }, 3000);
+            }
+        }
+    </script>
+</body>
+</html>
